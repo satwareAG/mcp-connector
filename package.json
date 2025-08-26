@@ -21,16 +21,16 @@
   "author": "TypingMind",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@modelcontextprotocol/sdk": "^1.17.4",
     "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "json-stable-stringify": "^1.2.1"
+    "json-stable-stringify": "^1.3.0"
   },
   "engines": {
     "node": ">=14.0.0"
   },
   "devDependencies": {
-    "prettier": "^3.5.3"
+    "prettier": "^3.6.2"
   }
 }
