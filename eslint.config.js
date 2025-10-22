@@ -27,6 +27,8 @@ export default [
         clearTimeout: 'readonly',
         clearInterval: 'readonly',
         clearImmediate: 'readonly',
+        // Browser/Node globals
+        URL: 'readonly',
         // Jest globals for test files
         describe: 'readonly',
         it: 'readonly',

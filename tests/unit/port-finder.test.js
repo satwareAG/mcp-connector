@@ -41,6 +41,7 @@ describe('port-finder', () => {
 
     // Create mock createServer function that returns servers sequentially
     mockCreateServer = jest.fn(() => {
+      // eslint-disable-next-line security/detect-object-injection -- mockServerIndex is controlled numeric counter
       const server = mockServers[mockServerIndex];
       mockServerIndex++;
       return server;
@@ -94,7 +95,7 @@ describe('port-finder', () => {
   });
 
   describe('findAvailablePort - no ports available', () => {
-    it('should return null when both ports are busy', async () => {
+    it('should throw error when both ports are busy', async () => {
       // Setup: Both ports busy (error events fire)
       mockServers[0].once.mockImplementation((event, callback) => {
         if (event === 'error') {
@@ -108,9 +109,9 @@ describe('port-finder', () => {
         }
       });
 
-      const port = await findAvailablePort();
-
-      expect(port).toBeNull();
+      await expect(findAvailablePort()).rejects.toThrow(
+        'No available ports found between 50880 and 50881'
+      );
       expect(mockCreateServer).toHaveBeenCalledTimes(2);
       expect(mockServers[0].listen).toHaveBeenCalledWith(50880);
       expect(mockServers[1].listen).toHaveBeenCalledWith(50881);
@@ -121,11 +122,11 @@ describe('port-finder', () => {
 
   describe('findAvailablePort - event ordering', () => {
     it('should handle error event registered before listening event', async () => {
-      const events = {};
+      const events = new Map();
 
       // Capture event handlers
       mockServers[0].once.mockImplementation((event, callback) => {
-        events[event] = callback;
+        events.set(event, callback);
       });
 
       // Start the port check
@@ -135,21 +136,21 @@ describe('port-finder', () => {
       await new Promise((resolve) => setImmediate(resolve));
 
       // Verify both event handlers were registered
-      expect(events.error).toBeDefined();
-      expect(events.listening).toBeDefined();
+      expect(events.get('error')).toBeDefined();
+      expect(events.get('listening')).toBeDefined();
 
       // Fire listening event to indicate port is available
-      events.listening();
+      events.get('listening')();
 
       const port = await portPromise;
       expect(port).toBe(50880);
     });
 
     it('should handle listening event registered before error event', async () => {
-      const events = {};
+      const events = new Map();
 
       mockServers[0].once.mockImplementation((event, callback) => {
-        events[event] = callback;
+        events.set(event, callback);
       });
 
       mockServers[1].once.mockImplementation((event, callback) => {
@@ -163,7 +164,7 @@ describe('port-finder', () => {
       await new Promise((resolve) => setImmediate(resolve));
 
       // Fire error event to indicate first port is busy
-      events.error();
+      events.get('error')();
 
       const port = await portPromise;
       expect(port).toBe(50881); // Should try second port
@@ -198,7 +199,7 @@ describe('port-finder', () => {
         }
       });
 
-      await findAvailablePort();
+      await expect(findAvailablePort()).rejects.toThrow();
 
       // Server should not be closed when listen fails
       expect(mockServers[0].close).not.toHaveBeenCalled();
@@ -230,7 +231,7 @@ describe('port-finder', () => {
         }
       });
 
-      await findAvailablePort();
+      await expect(findAvailablePort()).rejects.toThrow();
 
       expect(listenCalls).toEqual([50880, 50881]);
     });
@@ -295,7 +296,7 @@ describe('port-finder', () => {
         }
       });
 
-      await findAvailablePort();
+      await expect(findAvailablePort()).rejects.toThrow();
 
       // Should create server for each port attempt
       expect(mockCreateServer).toHaveBeenCalledTimes(2);
