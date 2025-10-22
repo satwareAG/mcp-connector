@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const server = require('../lib/server');
-const chalk = require('chalk');
+import { start } from '../lib/server.js';
+import chalk from 'chalk';
 
 // Get auth token from command line arguments or environment variable
 const authToken = process.argv[2] || process.env.MCP_AUTH_TOKEN;
@@ -14,8 +14,7 @@ if (!authToken) {
 }
 
 // Start the server with the provided auth token
-server
-  .start(authToken)
+start(authToken)
   .then(({ host, port, protocol }) => {
     console.log(
       chalk.green(`✓ MCP runner server running on ${protocol}://${host}:${port}`),
@@ -30,4 +29,3 @@ server
     console.error(chalk.red(`Error starting MCP server: ${err.message}`));
     process.exit(1);
   });
-  
