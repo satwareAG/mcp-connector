@@ -20,7 +20,7 @@ export default {
   ],
 
   // Coverage thresholds (satware® AI requirement: ≥80%)
-  coverageThresholds: {
+  coverageThreshold: {
     global: {
       branches: 80,
       functions: 80,
@@ -39,8 +39,8 @@ export default {
   ],
 
   // Transform files (ES modules support)
+  // Note: extensionsToTreatAsEsm not needed - package.json has "type": "module"
   transform: {},
-  extensionsToTreatAsEsm: ['.js'],
 
   // Module path aliases (if needed in future)
   moduleNameMapper: {},
