@@ -5,3 +5,10 @@ node_modules
 # Contains customer-identifiable information and generated content
 # See: Rules/memory-bank.md for structure and purpose
 memory-bank/
+
+# Test coverage and artifacts
+coverage/
+*.lcov
+.nyc_output/
+test-results/
+junit.xml
