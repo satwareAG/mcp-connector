@@ -1,2 +1,7 @@
 node_modules
 .readlocal-port
+
+# AI assistant memory bank (local context, not for version control)
+# Contains customer-identifiable information and generated content
+# See: Rules/memory-bank.md for structure and purpose
+memory-bank/
