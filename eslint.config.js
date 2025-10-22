@@ -20,6 +20,13 @@ export default [
         module: 'readonly',
         require: 'readonly',
         exports: 'readonly',
+        // Node.js timers
+        setTimeout: 'readonly',
+        setInterval: 'readonly',
+        setImmediate: 'readonly',
+        clearTimeout: 'readonly',
+        clearInterval: 'readonly',
+        clearImmediate: 'readonly',
         // Jest globals for test files
         describe: 'readonly',
         it: 'readonly',

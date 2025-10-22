@@ -4,9 +4,7 @@
   "repository": "https://github.com/TypingMind/typingmind-mcp",
   "description": "Model Context Protocol (MCP) servers runner for TypingMind",
   "main": "lib/server.js",
-  "bin": {
-    "@typingmind/mcp": "./bin/index.js"
-  },
+  "bin": "./bin/index.js",
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
