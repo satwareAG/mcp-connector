@@ -52,8 +52,9 @@ export default {
   // Test timeout (30 seconds)
   testTimeout: 30000,
 
-  // Verbose output
-  verbose: true,
+  // Minimal output - only show errors and warnings (user directive: reduce token load)
+  verbose: false,
+  silent: false, // Keep errors/warnings visible
 
   // Automatically clear mock calls and instances between tests
   clearMocks: true,
