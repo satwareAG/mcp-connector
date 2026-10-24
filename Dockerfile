@@ -1,5 +1,8 @@
 # Use an official Node.js runtime as a parent image (slim variant for better security)
-FROM node:23-slim
+# Patched LTS line: Node 24.x >= 24.22.1 (CVE-2026-111497 "Node2Shell" fix, 2026-10-21 release line).
+# Node 23 is EOL non-LTS and does not receive these fixes.
+# Digest pin per fleet rule security#86 (pin + date, re-pin on trigger): pinned 2026-10-24.
+FROM node:24-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205
 
 
 # Install Python, pip, and other dependencies
